@@ -1,0 +1,31 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+      <div class="col-md-10">
+
+        <form method="POST" class="form"  enctype="multipart/form-data">
+            <p><h2>Are you sure you want to delete this post?</h2></p>
+
+
+            {% csrf_token %}
+        
+
+  
+  
+          <br><br><br>
+          <div class="row">
+          <input type="submit" value="Confirm">
+          <a class="btn subscribe" href="{{request.GET.next}}">Go Back</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock content %}
+
