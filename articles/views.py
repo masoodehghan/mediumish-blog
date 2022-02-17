@@ -1,6 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden
-from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from .models import Post
@@ -29,7 +28,7 @@ class PostDetailView(DetailView):
     template_name = 'articles/post-detail.html'
     
     
-class PostEditView(UpdateView):
+class PostEditView(LoginRequiredMixin, UpdateView):
     model = Post
     form_class = PostForm
     template_name = 'articles/edit-post.html'
@@ -43,13 +42,13 @@ class PostEditView(UpdateView):
         else:
             return HttpResponseForbidden()
         
-class PostDeleteView(DeleteView):
+class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = "articles/post-delete.html"
     success_url = '/'
     
     def form_valid(self, form):
-        if form.instance.owner == self.request.user.profile:
+        if self.object.owner == self.request.user.profile:
             messages.success(self.request, 'deleted succssesfully!')
             return super().form_valid(form)
         else:
