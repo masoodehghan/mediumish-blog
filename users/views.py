@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from django.views.generic import FormView, DetailView
+from django.views.generic import FormView, DetailView, UpdateView
 from .forms import CustomUserCreationForm
 from django.contrib.auth import login
 from .models import Profile
@@ -22,3 +22,13 @@ class ProfileView(DetailView):
     template_name = 'users/account.html'
     model = Profile
     context_object_name = 'user'
+    
+class ProfileEditView(UpdateView):
+    model = Profile
+    template_name = 'users/edit-profile.html'
+    fields= ['name', 'username', 'email', 'profile_image']
+    
+    def form_valid(self, form):
+        
+        return super().form_valid(form)
+    

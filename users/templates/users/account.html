@@ -15,13 +15,15 @@
                         {% if request.user.profile == user %}
 						<a  href="{% url 'logout'%} " class="btn danger">Logout</a>
                         <a href="{% url 'create-post'%}" class="btn info">Create a Post</a>
+                        <a href="{% url 'profile_edit' user.id %}" class="btn info">Edit Your Profile</a>
+
                         {% else %}
                         <a target="_blank" href="https://twitter.com/wowthemesnet" class="btn follow">Follow</a><br>
                         {% endif %}
 
 					</div>
 					<div class="col-md-2 col-xs-12">
-						<img class="author-thumb" src="https://www.gravatar.com/avatar/e56154546cf4be74e393c62d1ae9f9d4?s=250&amp;d=mm&amp;r=x" alt="Sal">
+						<img class="author-thumb" src="{{user.profile_image.url}}" alt="Sal">
 					</div>
 				</div>
 			</div>

@@ -9,6 +9,7 @@ class Profile(models.Model):
     email = models.EmailField(max_length=500, blank=True, null=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
+    profile_image = models.ImageField (default='profiles/default.jpg', blank=True, upload_to='profiles/')
     created = models.DateTimeField(auto_now_add=True)
 
 
@@ -23,4 +24,4 @@ class Profile(models.Model):
 
 
 
-# post_delete.connect(delete_profile, sender=User)
+

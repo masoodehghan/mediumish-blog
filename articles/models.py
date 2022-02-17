@@ -1,6 +1,8 @@
+from re import S
 from django.db import models
 from users.models import Profile
 from django.urls import reverse
+from django.template.defaultfilters import slugify
 
 
 class Post(models.Model):
@@ -28,7 +30,10 @@ class Tag(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     id = models.BigAutoField(primary_key=True, editable=False, unique=True)
     created = models.DateTimeField(auto_now_add=True)
-
+    
+    
+    
+    
     def __str__(self):
         return self.name
 
