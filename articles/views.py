@@ -1,11 +1,13 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseForbidden
+from django.shortcuts import get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-from .models import Post
+from .models import Post, Tag
 from django.template.defaultfilters import slugify
 from .forms import PostForm
 from django.contrib import messages
+
 
 class PostListView(ListView):
     template_name = 'articles/article_list.html'
@@ -53,4 +55,10 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
             return super().form_valid(form)
         else:
             return HttpResponseForbidden()
-    
+
+class TagListView(ListView):
+    template_name = 'articles/article_list.html'
+    context_object_name = 'tags'
+    def get_queryset(self):
+        self.tag = get_object_or_404(Tag, id=self.kwargs['tag'])
+        return Post.objects.filter(tags=self.tag)

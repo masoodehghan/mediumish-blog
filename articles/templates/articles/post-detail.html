@@ -6,6 +6,7 @@
 
 	
 		<!-- Begin Post -->
+		
 		<div class="col-md-8 col-md-offset-2 col-xs-12">
 			<div class="mainheading">
 
@@ -40,7 +41,7 @@
 			<div class="after-post-tags">
 				<ul class="tags">
 					{% for tag in post.tags.all %}
-					<li><a href="#">{{tag}}</a></li>
+					<li><a href="{% url 'tag' tag.id %}">{{tag}}</a></li>
 					{% endfor %}
 				</ul>
 			</div>
