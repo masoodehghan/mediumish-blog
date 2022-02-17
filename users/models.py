@@ -11,7 +11,8 @@ class Profile(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, unique=True, editable=False)
     profile_image = models.ImageField (default='profiles/default.jpg', blank=True, upload_to='profiles/')
     created = models.DateTimeField(auto_now_add=True)
-
+    following = models.ManyToManyField('self', symmetrical=False, blank=True, related_name='followers')
+    bio = models.TextField(max_length=600, null=True, blank=True)
 
     def __str__(self):
         return self.username

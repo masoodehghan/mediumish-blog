@@ -9,18 +9,29 @@
 				<div class="row post-top-meta authorpage">
 					<div class="col-md-10 col-xs-12">
 						<h1>{{user.name}}</h1>
-						
-						
-						
+						<span class="author-description">{{user.bio|default_if_none:" "}}</span>
+						<br>
+						<p>
+						Following by <strong>{{user.following.count}}</strong> 
+						User and Followes <strong>{{user.followers.count}}</strong> User.
+						</p>
                         {% if request.user.profile == user %}
 						<a  href="{% url 'logout'%} " class="btn danger">Logout</a>
                         <a href="{% url 'create-post'%}" class="btn info">Create a Post</a>
                         <a href="{% url 'profile_edit' user.id %}" class="btn info">Edit Your Profile</a>
-
                         {% else %}
-                        <a target="_blank" href="https://twitter.com/wowthemesnet" class="btn follow">Follow</a><br>
-                        {% endif %}
+						
+							{% if request.user.is_authenticated %}
 
+								{% if request.user.profile in user.following.all %}
+                        		<a href="{% url 'follow' user.id %}" class="btn follow">Unfollow</a><br>
+								{% else %}
+                        		<a href="{% url 'follow' user.id %}" class="btn follow">Follow</a><br>
+								{% endif %}
+
+							{% endif %}
+
+                        {% endif %}
 					</div>
 					<div class="col-md-2 col-xs-12">
 						<img class="author-thumb" src="{{user.profile_image.url}}" alt="Sal">
