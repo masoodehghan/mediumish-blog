@@ -10,7 +10,7 @@ class Post(models.Model):
     body = models.TextField()
     id = models.BigAutoField(primary_key=True, editable=False, unique=True)
     created = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(default='c2.jpg', null=True, blank=True, upload_to='images/')
+    image = models.ImageField(default='c2.jpg', null=True, blank=True, upload_to='')
     tags = models.ManyToManyField('Tag', blank=True)
     slug = models.SlugField(max_length=300, null=True, blank=True, unique=True)
     
