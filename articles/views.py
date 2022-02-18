@@ -13,6 +13,11 @@ class PostListView(ListView):
     template_name = 'articles/article_list.html'
     model = Post
     
+    def get_context_data(self):
+        context = super().get_context_data()
+        
+    
+        return context
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     form_class = PostForm

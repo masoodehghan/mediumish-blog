@@ -17,6 +17,21 @@ class Post(models.Model):
     slug = models.SlugField(max_length=300, null=True, blank=True, unique=True)
     
     
+    @property
+    def reading_time(self):
+        word_count = len(self.body.split())
+        time = word_count / 200
+        round_time = round(time)
+        if time < 1:
+            time = f"{time * 0.6} second"
+            
+        else:
+            time = f"{round_time} minute"
+            
+            
+        return time
+    
+    
     def __str__(self):
         return self.title
     
