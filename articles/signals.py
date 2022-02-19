@@ -8,20 +8,19 @@ def delete_image_post(sender, instance, **kwargs):
     img_path = instance.image.path
     try:
         os.remove(img_path)
-        print('done')
     except OSError:
         pass
 
     
 def email_post_to_followers(sender, instance, **kwargs):
-    profile = instance.owner
+    owner_profile = instance.owner
     
-    subject = f"{profile.username} has posted a new post"
-    message_ = instance.body
+    subject = f"{owner_profile.username} has posted a new post"
+    message_ = f"link to the post \n http://127.0.0.1:8000/post/{instance.slug}"
     
     follower_emails  = []
-    for profile_ in profile.followers.all():
-        follower_emails.append(profile_.email)
+    for profile in owner_profile.followers.all():
+        follower_emails.append(profile.email)
         
         
     mail.send_mail(
@@ -32,6 +31,7 @@ def email_post_to_followers(sender, instance, **kwargs):
         
     )
     
+    print('mail: ', mail.outbox[0].body)
 
 
 post_delete.connect(delete_image_post, sender=Post)
