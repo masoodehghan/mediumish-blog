@@ -23,7 +23,7 @@ class Post(models.Model):
         time = word_count / 200
         round_time = round(time)
         if time < 1:
-            time = f"{time * 0.6} second"
+            time = "1 second"
             
         else:
             time = f"{round_time} minute"
