@@ -1,8 +1,9 @@
-
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.views import View
 from django.views.generic import FormView, DetailView, UpdateView
+from articles.models import Post
 from .forms import CustomUserCreationForm
 from django.contrib.auth import login
 from .models import Profile
@@ -22,13 +23,13 @@ class RegisterView(FormView):
         return redirect('post')
 
 class ProfileView(DetailView):
-    template_name = 'users/account.html'
+    template_name = 'users/show-user.html'
     model = Profile
     context_object_name = 'user'
     
 
     
-class ProfileEditView(UpdateView):
+class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = Profile
     template_name = 'users/edit-profile.html'
     fields= ['name', 'username', 'email', 'bio', 'profile_image']
@@ -37,7 +38,7 @@ class ProfileEditView(UpdateView):
         
         return super().form_valid(form)
     
-class FollowView(View):
+class FollowView(LoginRequiredMixin, View):
     
     def get(self, request, *args, **kwargs):
         profile = Profile.objects.get(id=kwargs['pk'])
@@ -56,3 +57,12 @@ class FollowView(View):
         return redirect(reverse('profile_detail', kwargs={"pk":profile.id}))
         
     
+class AccountView(LoginRequiredMixin, View):
+    template_name = 'users/account.html'
+    
+    def get(self, *args, **kwargs):
+        profile = self.request.user.profile
+        
+        return render(self.request, self.template_name, {'profile':profile})
+        
+        

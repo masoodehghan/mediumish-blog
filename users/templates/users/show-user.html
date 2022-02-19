@@ -8,30 +8,31 @@
 			<div class="mainheading">
 				<div class="row post-top-meta authorpage">
 					<div class="col-md-10 col-xs-12">
-						<h1>{{profile.name}}</h1>
-						<span class="author-description">{{profile.bio|default_if_none:" "}}</span>
+						<h1>{{user.name}}</h1>
+						<span class="author-description">{{user.bio|default_if_none:" "}}</span>
 						<br>
 						<p>
-						Following by <strong>{{profile.following.count}}</strong> 
-						User and Followes <strong>{{profile.followers.count}}</strong> User.
+						Following by <strong>{{user.following.count}}</strong> 
+						User and Followes <strong>{{user.followers.count}}</strong> User.
 						</p>
-
-                        {% for follower in profile.followers.all %}
-    
-                        follower: <a href="{{follower.get_absolute_url}}">{{follower.username}}</a>
-                        {% endfor %}
-
-						<a  href="{% url 'logout'%} " class="btn danger">Logout</a>
-                        <a href="{% url 'create-post'%}" class="btn info">Create a Post</a>
-                        <a href="{% url 'profile_edit' profile.id %}" class="btn info">Edit Your Profile</a>
                         
 						
 							
+						{% if request.user.profile == user %}
+						<a class="btn info" href="{% url 'profile'%} ">Account</a>
+						{% else %}
+						{% if request.user.profile in user.following.all %}
+                        <a href="{% url 'follow' user.id %}" class="btn follow">Unfollow</a><br>
+						{% else %}
+						<a href="{% url 'follow' user.id %}" class="btn follow">Follow</a><br>
+						{% endif %}
+						{% endif %}
+							
 
-                        
+						
 					</div>
 					<div class="col-md-2 col-xs-12">
-						<img class="author-thumb" src="{{profile.profile_image.url}}" alt="Sal">
+						<img class="author-thumb" src="{{user.profile_image.url}}" alt="Sal">
 					</div>
 				</div>
 			</div>
@@ -52,28 +53,30 @@
 
 				<!-- begin post -->
             
-            {% for post in profile.post_set.all %}
+            {% for post in user.post_set.all %}
 		    <div class="authorpostbox">
 					<div class="card">
-		        
+		        <a href="{{post.owner.get_absolute_url}}">
 		        <img class="img-fluid img-thumb" src="assets/img/demopic/9.jpg" alt="">
 		        </a>
 		        <div class="card-block">
 		          <h2 class="card-title"><a href="{{post.get_absolute_url}}">{{post.title}}</a></h2>
               <h4 class="card-text">{{post.body|slice:"50"}}</h4>
               <div class="metafooter">
-		             <div class="wrapfooter">
+		            <div class="wrapfooter">
 		              <span class="meta-footer-thumb">
-		              
+		              <a href="author.html"><img class="author-thumb" src="{{post.owner.profile_image.url}}" alt="Sal"></a>
+		              </span>
+		              <span class="author-meta">
+		              <span class="post-name"><a href="{{post.owner.get_absolute_url}}">{{post.owner.username}}</a></span><br/>
 		              <span class="post-date">{{post.created}}</span><span class="dot"></span><span class="post-read">{{post.reading_time}}</span>
 		              </span>
 		              <span class="post-read-more"><a href="post.html" title="Read Story"><svg class="svgIcon-use" width="25" height="25" viewbox="0 0 25 25"><path d="M19 6c0-1.1-.9-2-2-2H8c-1.1 0-2 .9-2 2v14.66h.012c.01.103.045.204.12.285a.5.5 0 0 0 .706.03L12.5 16.85l5.662 4.126a.508.508 0 0 0 .708-.03.5.5 0 0 0 .118-.285H19V6zm-6.838 9.97L7 19.636V6c0-.55.45-1 1-1h9c.55 0 1 .45 1 1v13.637l-5.162-3.668a.49.49 0 0 0-.676 0z" fill-rule="evenodd"></path></svg></a></span>
-		            </div> 
+		            </div>
 		          </div>
 		        </div>
 					</div>
 		    </div>
-            <hr>
             {% endfor %}
 				<!-- end post -->
 

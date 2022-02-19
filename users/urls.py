@@ -9,10 +9,11 @@ urlpatterns = [
     path('login/', 
          
          LoginView.as_view(template_name='users/login.html', 
-            redirect_authenticated_user=True, next_page='post'),
+            redirect_authenticated_user=True, next_page='profile'),
          
          name='login'
          ),
     path('logout/', LogoutView.as_view(next_page='post'), name='logout'),
     path('register/', views.RegisterView.as_view(), name='register'),
+    path('profile/', views.AccountView.as_view(), name='profile')
 ]
