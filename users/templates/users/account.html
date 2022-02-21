@@ -9,7 +9,7 @@
 				<div class="row post-top-meta authorpage">
 					<div class="col-md-10 col-xs-12">
 						<h1>{{profile.name}}</h1>
-						<span class="author-description">{{profile.bio|default_if_none:" "}}</span>
+						<span class="author-description">{{profile.bio|default:"you can add bio to your profile"}}</span>
 						<br>
 						<p>
 						Following by <strong>{{profile.following.count}}</strong> 
@@ -26,7 +26,6 @@
                         <a href="{% url 'profile_edit' profile.id %}" class="btn info">Edit Your Profile</a>
                         
 						
-							
 
                         
 					</div>

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse
 from django.shortcuts import redirect, render
@@ -20,7 +21,7 @@ class RegisterView(FormView):
         user.save()
         login(self.request, user)
         
-        return redirect('post')
+        return redirect('profile')
 
 class ProfileView(DetailView):
     template_name = 'users/show-user.html'
@@ -33,6 +34,7 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = Profile
     template_name = 'users/edit-profile.html'
     fields= ['name', 'username', 'email', 'bio', 'profile_image']
+    success_url = '/accounts/profile/'
     
     def form_valid(self, form):
         
@@ -45,13 +47,15 @@ class FollowView(LoginRequiredMixin, View):
         current_profile = Profile.objects.get(id=request.user.profile.id)
         following = profile.following.all()
         
-        if kwargs['pk'] != current_profile.id:
-            if current_profile in following:
-                profile.following.remove(current_profile.id)
-                
-            else:
-                profile.following.add(current_profile.id)
-                
+        if profile != current_profile:
+            if kwargs['pk'] != current_profile.id:
+                if current_profile in following:
+                    profile.following.remove(current_profile.id)
+                    
+                else:
+                    profile.following.add(current_profile.id)
+        else:
+            messages.error(self.request, 'You cant follow yourself')    
                 
                 
         return redirect(reverse('profile_detail', kwargs={"pk":profile.id}))

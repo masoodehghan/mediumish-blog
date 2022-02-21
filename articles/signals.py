@@ -18,6 +18,7 @@ def email_post_to_followers(sender, instance, **kwargs):
     subject = f"{owner_profile.username} has posted a new post"
     message_ = f"link to the post \n http://127.0.0.1:8000/post/{instance.slug}"
     
+    
     follower_emails  = []
     for profile in owner_profile.followers.all():
         follower_emails.append(profile.email)
@@ -27,11 +28,11 @@ def email_post_to_followers(sender, instance, **kwargs):
         subject,
         message_,
         "masood@gmail.com",
-        follower_emails
-        
+        follower_emails,
+        fail_silently=True
     )
     
-    print('mail: ', mail.outbox[0].body)
+    
 
 
 post_delete.connect(delete_image_post, sender=Post)

@@ -52,7 +52,7 @@ class PostEditView(LoginRequiredMixin, UpdateView):
 class PostDeleteView(LoginRequiredMixin, DeleteView):
     model = Post
     template_name = "articles/post-delete.html"
-    success_url = '/'
+    success_url = '/accounts/profile'
     
     def form_valid(self, form):
         if self.object.owner == self.request.user.profile:
