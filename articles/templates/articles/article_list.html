@@ -45,7 +45,7 @@
 		
         {% for post in object_list %}
 		<div class="card">
-			<a href="post.html">
+			<a href="{{post.get_absolute_url}}">
 				<img style="height: 200px" class="img-fluid" src="{{post.image.url}}" alt="">
 			</a>
             
